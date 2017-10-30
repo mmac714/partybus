@@ -1,0 +1,4 @@
+pathtest.py
+.env
+mysite.log
+__pycache__/
