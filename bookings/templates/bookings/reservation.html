@@ -1,0 +1,13 @@
+{% extends "bookings/base.html" %}
+
+{% block content %}
+
+<p>
+	Reservation page stuff goes here.
+	<form action="." method="post">
+		{{ form.as_p }}
+		{% csrf_token %}
+		<input type="submit" >
+</p>
+
+{% endblock content %}
