@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # third party apps
+
     # My apps
     'bookings',
 ]
@@ -143,6 +145,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Stripe Settings
+# STRIPE_LIVE_PIBLIC_KEY = grab from stripe when testing prod
+# STRIPE_LIVE_SECRET_KEY = grab from stripe when testing prod
+
+STRIPE_TEST_PUBLIC_KEY = os.environ.get("STRIPE_TEST_PUBLIC_KEY", '')
+STRIPE_TEST_SECRET_KEY = os.environ.get("STRIPE_TEST_SECRET_KEY", '')
+STRIPE_LIVE_MODE = False
+
 
 # Logging
 LOGGING = {

@@ -1,0 +1,48 @@
+{% extends "bookings/base.html" %}
+
+{% block content %}
+
+<p>
+	Reservation ID: {{ reservation.id }}
+</p>
+
+<p>
+	Reservation Date: {{ reservation.date }}
+</p>
+<p>
+
+<!--
+<p>
+<form action="/checkout" method="POST" >
+
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="pk_test_DpPhRMRAYLkZqgZxgFLTM3vY"
+    data-amount="400"
+    data-name="Sixty Mill Street"
+    data-description="14 Person Pary Bus"
+    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+    data-locale="auto">
+  </script>
+ 
+</form>
+</p>
+-->
+
+<p>
+  <form action="{% url 'bookings:payment' reservation.id %}"
+  method="post">
+     <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="pk_test_DpPhRMRAYLkZqgZxgFLTM3vY"
+    data-amount="400"
+    data-name="Sixty Mill Street"
+    data-description="14 Person Pary Bus"
+    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+    data-locale="auto">
+  </script>
+  </form>
+</p>
+
+
+{% endblock content %}

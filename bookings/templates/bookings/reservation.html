@@ -4,10 +4,14 @@
 
 <p>
 	Reservation page stuff goes here.
-	<form action="." method="post">
-		{{ form.as_p }}
+	<form action="{% url 'bookings:reservation' %}"
+	method="post">
 		{% csrf_token %}
-		<input type="submit" >
+		{{ form.as_p }}
+		<input type="submit">
+	</form>
 </p>
+
+
 
 {% endblock content %}
