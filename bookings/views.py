@@ -40,21 +40,16 @@ def reservation(request):
 def payment(request, reservation_id):
 	""" User's reservation data, agreement, payment. """
 	reservation = Reservation.objects.get(id=reservation_id)
+	context = {'reservation': reservation,}
 
-	
 	if request.method == "POST":
-		token = request.POST.get("stripeToken")
-		email = request.POST.get("stripeEmail")
+		# Payment form submitted. Process payment.
 
-		#Payment(reservation).check_if_already_paid()
+		token = request.POST.get("stripeToken")
 		Payment().charge_card(token, reservation)
 
 		return HttpResponseRedirect(reverse('bookings:confirmation',
 			args=[reservation_id]))
-
-	context = {
-		'reservation': reservation,
-		}
 
 	return render(request, 'bookings/payment.html', context)
 

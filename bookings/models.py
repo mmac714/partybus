@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.http import HttpResponse
+from django.shortcuts import HttpResponseRedirect, reverse
 
 import stripe
 import uuid
@@ -20,6 +21,7 @@ class Reservation(models.Model):
 	date = models.DateField()
 	duration = models.IntegerField()
 	quote_amount = models.IntegerField(default=0)
+	happening = models.BooleanField(default=False)
 
 	def __str__(self):
 		""" Return the id of the model """
@@ -63,44 +65,60 @@ class Payment(models.Model):
 		)
 	email = models.EmailField()
 	stripe_id = models.CharField(max_length=30, blank=True)
-	paid = models.BooleanField(default=False)
 	charge_amount = models.IntegerField(default=0)
+	charge_status = models.CharField(max_length=100, blank=True)
+	charge_desription = models.CharField(max_length=200, blank=True)
 
 	def __str__(self):
 		""" Return the id of the model """
 		return str(self.reservation_id)
 
-	def check_if_already_paid(self):
-		if self.paid: # don't let this be charged twice!
-			return False, Exception(message="Already charged!")
+	def store_stripe_objects_in_db(self, reservation_instance, charge_instance):
+		""" store stripe objects to the payment instance """
+		res = reservation_instance
+		charge = charge_instance
+
+		res.stripe_id = charge.id
+		res.email = charge.source.name
+		res.charge_amount = charge.amount
+		res.charge_status = charge.outcome.type
+		res.charge_desription = charge.outcome.seller_message
+
+		res.save()
 
 	def charge_card(self, token, reservation):
 
 		new_payment = Payment(str(reservation))
 		fee = reservation.quote_amount
 
-		if new_payment.paid: # don't let this be charged twice!
-			return False, HttpResponse("Already charged!")
+		if new_payment.paid:
+		# if paid=true, do not process payment and
+		# send directly to confirmation page. 
+			return HttpResponseRedirect(reverse('bookings:confirmation',
+				args=[reservation]))
 
 		try:
 			charge = stripe.Charge.create(
-				amount = fee,
-				currency = "usd",
-				source = token,
-				description = "14 passenger bus"
-				)
-
-			new_payment.stripe_id = charge.id
-			new_payment.email = charge.source.name
-			new_payment.charge_amount = charge.amount
+						amount = fee,
+						currency = "usd",
+						source = token,
+						description = str(reservation),
+						)
 
 		except stripe.error.CardError as ce:
-			return False, HttpResponse(ce)
+			# an error object is created as the 
+			# the result of a card error.
+			# This error will happen on blocked (fraud) cards
+			err = ce.json_body.get('error', {})
+			new_payment.charge_status = err.get('type')
+			new_payment.charge_desription = err.get('message')
+			new_payment.save()
+			return False
+				# will forward them to confirm page with charge 
+				# status and description
 
 		else:
-			new_payment.paid = True
-			new_payment.save()
-
+			Payment().store_stripe_objects_in_db(new_payment, charge)
 
 
 

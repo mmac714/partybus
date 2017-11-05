@@ -30,9 +30,11 @@ stripe.Charge.create(
 # charg ID will be the first argument in retrieve
 
 stripe.Charge.retrieve(
-  "ch_1BKHfjGbnnaXpMDuqcjOSbU7",
+  "ch_1BKHmBGbnnaXpMDuFhUiRCSO",
   api_key="sk_test_pN7XZ5JeWtIlU4uAWAnBaXX9"
 )
+
+4242 4242 4242 4242
 
 """
 How does checkout.js create the token?
