@@ -1,0 +1,40 @@
+{% extends "bookings/base.html" %}
+
+{% block content %}
+
+booking information here.
+<p>
+	Reservation ID: {{ reservation.id }}
+</p>	
+<p>
+Email: {{ payment.email }}
+</p>
+
+<p>
+	forms:
+	<form action="{% url 'bookings:booking' reservation.id %}"
+	method="post">
+		{% csrf_token %}
+		{{ r_form.as_p }}
+		<button type="submit" name="btn-r_form">Save Changes</button>
+	</form>
+
+	<form action="{% url 'bookings:booking' reservation.id %}"
+	method="post">
+		{% csrf_token %}
+		{{ d_form.as_p }}
+		<button type="submit" name="btn-d_form">Save Changes</button>
+	</form>
+</p>
+
+<p>
+	Payment info:
+</p>
+<p>
+	Charge Status: {{ payment.charge_status }}
+</p>
+<p>
+	Charge Amount: {{ payment.charge_amount }}
+</p>
+
+{% endblock content %}

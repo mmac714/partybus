@@ -30,7 +30,7 @@ stripe.Charge.create(
 # charg ID will be the first argument in retrieve
 
 stripe.Charge.retrieve(
-  "ch_1BKHmBGbnnaXpMDuFhUiRCSO",
+  "ch_1BKI3fGbnnaXpMDuCaUhKLW4",
   api_key="sk_test_pN7XZ5JeWtIlU4uAWAnBaXX9"
 )
 
@@ -41,7 +41,32 @@ How does checkout.js create the token?
 
 How do I retrieve that token?
 
+  """
+    if 'reservationform' in request.method == "POST":
+    # reservation form was submitted
+      r_form = ReservationForm(request.POST, prefix='reservation')
+      if r_form.is_valid():
+        r_form.save()
+      d_form = DetailForm(prefix='detail')
 
+    elif 'detailform' in request.POST:  
+    # detail form was submitted
+      d_form = DetailForm(request.POST, prefix='detail')
+      if d_form.is_valid():
+        d_form.save()
+      r_form = ReservationForm(prefix='reservation')
+
+  else:
+    r_form = ReservationForm(prefix='reservationform',initial={
+      'date': reservation.date})
+    d_form = DetailForm(prefix='detailform')
+
+  context = {
+    'reservation': reservation,
+    'r_form': r_form,
+    'd_form': d_form,
+    }
+      """
 
 
 

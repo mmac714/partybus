@@ -8,7 +8,6 @@ import stripe
 import uuid
 
 from pb_config.settings import STRIPE_TEST_SECRET_KEY
-
 stripe.api_key = STRIPE_TEST_SECRET_KEY
 
 #from .reservation_num_generator import reservation_num_generator
@@ -22,6 +21,8 @@ class Reservation(models.Model):
 	duration = models.IntegerField()
 	quote_amount = models.IntegerField(default=0)
 	happening = models.BooleanField(default=False)
+	objects = models.Manager()
+
 
 	def __str__(self):
 		""" Return the id of the model """
@@ -34,6 +35,10 @@ class Reservation(models.Model):
 		reservation.quote_amount = duration * rate
 
 		reservation.save()
+
+	def create_detail_and_payment_instance(self, reservation):
+		Detail.objects.create(reservation=reservation)
+		Payment.objects.create(reservation=reservation)
 
 
 class Detail(models.Model):
@@ -73,7 +78,8 @@ class Payment(models.Model):
 		""" Return the id of the model """
 		return str(self.reservation_id)
 
-	def store_stripe_objects_in_db(self, reservation_instance, charge_instance):
+	def store_stripe_objects_in_db(self, reservation_instance, 
+		charge_instance):
 		""" store stripe objects to the payment instance """
 		res = reservation_instance
 		charge = charge_instance
@@ -87,11 +93,12 @@ class Payment(models.Model):
 		res.save()
 
 	def charge_card(self, token, reservation):
-
+		""" uses the form token to charge the card, create a 
+		charge or CardError object and stores the object data. """
 		new_payment = Payment(str(reservation))
 		fee = reservation.quote_amount
 
-		if new_payment.paid:
+		if new_payment.charge_amount:
 		# if paid=true, do not process payment and
 		# send directly to confirmation page. 
 			return HttpResponseRedirect(reverse('bookings:confirmation',
@@ -102,7 +109,7 @@ class Payment(models.Model):
 						amount = fee,
 						currency = "usd",
 						source = token,
-						description = str(reservation),
+						description = str(reservation)
 						)
 
 		except stripe.error.CardError as ce:
@@ -119,6 +126,7 @@ class Payment(models.Model):
 
 		else:
 			Payment().store_stripe_objects_in_db(new_payment, charge)
+
 
 
 
