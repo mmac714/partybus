@@ -1,8 +1,19 @@
 from django import forms
-
 from .models import Reservation, Detail
 
+import datetime
+
+from pb_config.settings import DATE_INPUT_FORMATS
+
+# find the next saturday for date initial value
+today = datetime.date.today()
+saturday = today + datetime.timedelta( (5-today.weekday()) % 7)
+
+
 class ReservationForm(forms.ModelForm):
+	date = forms.DateField(widget=forms.SelectDateWidget, 
+		initial=saturday)
+	duration = forms.IntegerField(widget=forms.NumberInput, min_value=3)
 	class Meta:
 		model = Reservation
 		fields = ['date','duration'] 

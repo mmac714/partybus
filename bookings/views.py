@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, \
 redirect, HttpResponseRedirect, reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 
 import stripe
 
@@ -68,7 +69,7 @@ def confirmation(request, reservation_id):
 		}
 	return render(request, 'bookings/confirmation.html', context)
 
-
+@login_required
 def booking(request, reservation_id):
 	""" Page for associate to fill out Reservation detail. """
 	reservation = Reservation.objects.get(id=reservation_id)
@@ -116,6 +117,7 @@ def booking(request, reservation_id):
 
 		return render(request, 'bookings/booking.html', context)
 
+@login_required
 def booking_list(request):
 	""" Show all bookings. """
 	bookings = Reservation.objects.order_by('date')

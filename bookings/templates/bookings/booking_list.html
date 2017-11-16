@@ -1,58 +1,45 @@
-{% extends "bookings/base.html" %}
+{% extends "users/dashboard_base.html" %}
 
 {% block content %}
 
-<p>
-	Bookings
-</p>
+<div class="jumbotron">
+	<h4 class="text-left">
+		Bookings
+	</h4>
+	<div class="text-left" style="font-size:8;">
+		sorted by booking date	
+	</div>
 
-<ul>
-	{% for booking in bookings %}
-	  <li>
-	    <a href="{% url 'bookings:booking' booking.id %}">
-	    {{ booking }}
-		</a>
-		<span>
-			&nbsp;
-			&nbsp;
-			&nbsp;
-			&nbsp;
-			{{ booking.date }}
-		</span>
-		<span>
-			&nbsp;
-			&nbsp;
-			&nbsp;
-			&nbsp;
-			{{ booking.payment.email }}
-		</span>
-		<span>
-			&nbsp;
-			&nbsp;
-			&nbsp;
-			&nbsp;
-			{{ booking.happening }}
-		</span>
-		<span>
-			&nbsp;
-			&nbsp;
-			&nbsp;
-			&nbsp;
-			{{ booking.payment.charge_status }}
-		</span>
-		<span>
-			&nbsp;
-			&nbsp;
-			&nbsp;
-			&nbsp;
-			{{ booking.detail.comments }}
-		</span>
-	  </li>
-	{% empty %}
-	  <li> There are no bookings </li>
-	{% endfor %}
-</ul>
+	<table class="table-striped table-hover">
+		<thead>
+			<tr>
+				<th width="15%">#</th>
+				<th width="20%" >Happening</th>
+				<th width="20%">date</th>
+				<th width="23%">Payment Status</th>
+				<th scope="col">email</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for booking in bookings %}
+				<tr>
+					<td>
+						<a href="{% url 'bookings:booking' booking.id %}">
+							{{ booking }}
+						</a>
+					</td>
+					<td>{{ booking.happening }}</td>
+					<td>{{ booking.date }}</td>
+					<td>{{ booking.payment.charge_status }}</td>
+					<td>{{ booking.payment.email }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
 
+<div class="line">
+</div>
 
 
 {% endblock content %}

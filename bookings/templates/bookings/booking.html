@@ -1,40 +1,102 @@
-{% extends "bookings/base.html" %}
-
+{% extends "users/dashboard_base.html" %}
+{% load bootstrap3 %}
 {% block content %}
 
-booking information here.
-<p>
-	Reservation ID: {{ reservation.id }}
-</p>	
-<p>
-Email: {{ payment.email }}
-</p>
+<body>
+<div class="jumbotron">
+	<div class="jumbotron-inner">
+		<h2>
+		Profile for Booking: {{ reservation.id }}
+		</h2>
+		<p>
+			Email: {{ payment.email }}
+		</p>
+		<p>
+			Happening: {{ reservation.happening }}
+		</p>
 
-<p>
-	forms:
-	<form action="{% url 'bookings:booking' reservation.id %}"
-	method="post">
-		{% csrf_token %}
-		{{ r_form.as_p }}
-		<button type="submit" name="btn-r_form">Save Changes</button>
-	</form>
+	</div>
 
-	<form action="{% url 'bookings:booking' reservation.id %}"
-	method="post">
-		{% csrf_token %}
-		{{ d_form.as_p }}
-		<button type="submit" name="btn-d_form">Save Changes</button>
-	</form>
-</p>
+	<div class="jumbotron-inner">
+		<h3>
+			Payment info:
+		</h3>
+		<div class="line">
+		</div>
+		<p>
+			Charge Status: {{ payment.charge_status }}
+		</p>
+		<p>
+			Charge Amount: {{ payment.charge_amount }}
+		</p>
+		<p>
+			Charge Description: {{ payment.charge_desription }} 
+		</p>
+		<p>
+			Stripe id: {{ payment.stripe_id }}
+		</p>
+	</div>
 
-<p>
-	Payment info:
-</p>
-<p>
-	Charge Status: {{ payment.charge_status }}
-</p>
-<p>
-	Charge Amount: {{ payment.charge_amount }}
-</p>
 
+	<div class="jumbotron-inner">
+		<h3>
+			Reservation Data:
+		</h3>
+		<div class="line">
+		</div>
+
+			<form action="{% url 'bookings:booking' reservation.id %}" method="post">
+				{% csrf_token %}
+				<div>
+					{% bootstrap_field r_form.date %}
+				</div>
+				<div>
+					{% bootstrap_field r_form.duration %}
+				</div>
+				<div>
+					{% bootstrap_field r_form.quote_amount %}
+				</div>
+
+				<button type="submit" name="btn-r_form">Save Changes</button>
+			</form>
+	</div>
+
+	<div class="jumbotron-inner">
+		<h3>
+			Detail Data:
+		</h3>
+		<div class="line">
+		</div>
+
+			<form action="{% url 'bookings:booking' reservation.id %}" method="post">
+				{% csrf_token %}
+				<div>
+					{% bootstrap_field d_form.start_time %}
+				</div>
+				<div>
+					{% bootstrap_field d_form.end_time %}
+				</div>
+				<div>
+					{% bootstrap_field d_form.location_pick_up field_class='form-textarea' %}
+				</div>
+				<div>
+					{% bootstrap_field d_form.location_drop_off %}
+				</div>
+				<div>
+					{% bootstrap_field d_form.comments %}
+				</div>
+
+				<!--
+				<div>
+					{% csrf_token %}
+					{% bootstrap_form d_form 	field_class='textarea' %}
+				</div>
+			-->
+				<button type="submit" name="btn-d_form">Save Changes</button>
+			</form>
+		</div>
+	</div>
+
+</div>
+</body>
 {% endblock content %}

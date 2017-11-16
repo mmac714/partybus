@@ -28,6 +28,7 @@ PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # pb_config
 
+APP_DIR = os.path.dirname(BASE_DIR)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -52,9 +53,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # third party apps
+    'bootstrap3',
+    'bootstrap4',
+    'jquery',
 
     # My apps
     'bookings',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -72,7 +77,7 @@ ROOT_URLCONF = 'pb_config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR,'templates',BASE_DIR)],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -153,6 +158,20 @@ STATIC_URL = '/static/'
 STRIPE_TEST_PUBLIC_KEY = os.environ.get("STRIPE_TEST_PUBLIC_KEY", '')
 STRIPE_TEST_SECRET_KEY = os.environ.get("STRIPE_TEST_SECRET_KEY", '')
 STRIPE_LIVE_MODE = False
+
+# Email configurations
+# http://status.sendgrid.com/ for email status updares
+
+EMAIL_HOST = os.environ.get("EMAIL_HOST")
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+EMAIL_PORT = 25
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# Date format
+DATE_INPUT_FORMATS = ('%d-%m-%Y','%Y-%m-%d')
+USE_L10N = True 
 
 
 # Logging
