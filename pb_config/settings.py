@@ -112,6 +112,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'pb_config.wsgi.application'
 
+PROJECT_DIR = os.path.dirname(__file__)
+TEMPLATE_DIRS = (
+    os.path.join(PROJECT_DIR, "templates"),
+    # here you can add another templates directory if you wish.
+)
+
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
