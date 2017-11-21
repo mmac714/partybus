@@ -52,8 +52,9 @@ if os.getcwd() == '/app':
 
     DEBUG = False
 
-    db_from_env = dj_database_url.config()
-    DATABASES['default'].update(db_from_env)
+    DATABASES = {
+        'default': dj_database_url.config(default='DATABASE_URL')
+     }
 
      # Honor the 'X-Forwarded-Proto' header for request.is_secure().
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
