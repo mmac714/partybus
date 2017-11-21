@@ -43,6 +43,27 @@ ALLOWED_HOSTS = ['*']
 
 SITE_ID = 1
 
+# Heroku settings
+if os.getcwd() == '/app':
+    # in development og.getcwd is
+    # /Users/macbook/djangoProjects/sixtymill/sixty_mill/sixty_mill
+
+    import dj_database_url
+
+    DEBUG = False
+
+    DATABASES = {
+        'default': dj_database_url.config(default='DATABASE_URL')
+     }
+
+     # Honor the 'X-Forwarded-Proto' header for request.is_secure().
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+     # Alow all host headers.
+    ALLOWED_HOSTS = ['*']
+
+    SITE_ID = 1
+
 
 # Application definition
 
