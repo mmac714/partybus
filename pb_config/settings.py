@@ -48,7 +48,7 @@ if os.getcwd() == '/app':
     # in development og.getcwd is
     # /Users/macbook/djangoProjects/sixtymill/sixty_mill/sixty_mill
 
-    DEBUG = False
+    #DEBUG = False
 
     #DATABASES = {
      #   'default': dj_database_url.config(default='DATABASE_URL')
