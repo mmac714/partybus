@@ -1,10 +1,8 @@
 {% extends "bookings/base.html" %}
 
 {% load bootstrap3 %}
-{% bootstrap_css %}
-{% bootstrap_javascript %} 
-
-{% block content %}
+{% load static %}
+{% block 1stcontent %}
 
 
    <!-- Section: home video -->
@@ -13,7 +11,7 @@
     <div class="home-video-wrapper">
 
       <div class="homevideo-container">
-        <div id="P1" class="bg-player" style="display:block; margin: auto; background: rgba(0,0,0,0.5)" data-property="{videoURL:'https://www.youtube.com/watch?v=9ZDd9Vna_no',containment:'.homevideo-container', quality: 'hd720', showControls: false, autoPlay:true, mute:true, startAt:0, opacity:1}">     
+        <div id="P1" class="bg-player" style="display:block; margin: auto; background: rgba(0,0,0,0.5)" data-property="{videoURL:'https://www.youtube.com/watch?v=IvUOHhTa3uE?t=20',containment:'.homevideo-container', quality: 'hd720', showControls: false, autoPlay:true, mute:true, startAt:0, opacity:1}">     
         </div>
       </div> 
       <div class="overlay">
@@ -38,10 +36,9 @@
                   {% bootstrap_field form.duration layout='inline' field_class='form-duration' %}
                 </div>
 
-
                 <div class="btn btn-skin">
                   <button type="submit" class="btn btn-skin btn-lg" >
-                    Book now
+                    Reserve
                 </button>
               </div>
 			       </form>
@@ -51,9 +48,102 @@
       </div> 
     </div>
   </div>
-  </section> 
+  </section>
 
-  <!-- Section: pricing --> 
+    <!-- Core JavaScript Files -->
+ <!-- <script src='Valera/js/jquery.min.js' %}"></script> -->
+ <!-- Core JavaScript Files  -->
+  <script src="{% static 'Valera/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'Valera/js/jquery.sticky.js' %}"></script>
+  <script src="{% static 'Valera/js/slippry.min.js' %}"></script>
+  <script src="{% static 'Valera/js/jquery.flexslider-min.js' %}"></script>
+  <script src="{% static 'Valera/js/morphext.min.js' %}"></script>
+  <script src="{% static 'Valera/js/gmap.js' %}"></script>
+  <script src="{% static 'Valera/js/jquery.mb.YTPlayer.js' %}"></script>
+  <script src="{% static 'Valera/js/jquery.easing.min.js' %}"></script>
+  <script src="{% static 'Valera/js/jquery.scrollTo.js' %}"></script>
+  <script src="{% static 'Valera/js/jquery.appear.js' %}"></script>
+  <script src="{% static 'Valera/js/stellar.js' %}"></script>
+  <script src="{% static 'Valera/js/wow.min.js' %}"></script>
+  <script src="{% static 'Valera/js/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'Valera/js/nivo-lightbox.min.js' %}"></script>
+  <script src="{% static 'Valera/js/jquery.nicescroll.min.js' %}"></script>
+  <script src="{% static 'Valera/js/custom.js' %}"></script>
+  <script src="{% static 'Valera/contactform/contactform.js' %}"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8HeI8o-c1NppZA-92oYlXakhDPYR7XMY"></script>
+
+
+{% endblock 1stcontent %}
+
+{% block 2ndcontent %}
+  
+    <!-- Section: Amenities --> 
+  <section id="amenities" class="home-section color-dark bg-white">
+    <div class="container marginbot-50">
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+          <div class="wow flipInY" data-wow-offset="0" data-wow-delay="0.4s">
+            <div class="section-heading text-center">
+              <h2 class="h-bold">Amenities</h2>
+              <div class="divider-header"></div>
+              <div>
+                <ul>
+                  <li >Agam perfecto sensibus usu at duo ut iriure.</li>
+                  <li >Lorem ipsum dolor sit amet, agam perfecto sensibus usu at duo ut iriure.</li>
+                  <li >Lorem ipsum dolor sit amet.</li>
+                </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>  
+  </section>   
+
+  <!-- Section: parallax 2 -->
+  <section id="parallax2" class="home-section parallax text-light" data-stellar-background-ratio="0.3">
+    <div class="container">
+      <div class="row appear stats">
+        <div class="col-md-3">
+          <div class="align-center color-white txt-shadow">
+            <div class="icon">
+              <i class="pe-7s-stopwatch pe-5x"></i>
+            </div>
+            <strong id="counter-coffee" class="number">110042</strong><br />
+            <span class="text">Miles</span>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="align-center color-white txt-shadow">
+            <div class="icon">
+              <i class="pe-7s-music pe-5x"></i>
+            </div>
+            <strong id="counter-music" class="number">229</strong><br />
+            <span class="text">Tracks</span>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="align-center color-white txt-shadow">
+            <div class="icon">
+              <i class="pe-7s-coffee pe-5x"></i>
+            </div>
+            <strong id="counter-clock" class="number">451</strong><br />
+            <span class="text">beverages</span>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="align-center color-white txt-shadow">
+            <div class="icon">
+              <i class="pe-7s-cup pe-5x"></i>
+            </div>
+            <strong id="counter-heart" class="number">12187</strong><br />
+            <span class="text">customers</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+      <!-- Section: pricing --> 
   <section id="pricing" class="home-section color-dark bg-white">
     <div class="container marginbot-50">
       <div class="row">
@@ -62,108 +152,64 @@
             <div class="section-heading text-center">
               <h2 class="h-bold">Pricing</h2>
               <div class="divider-header"></div>
-              <p>Lorem ipsum dolor sit amet, agam perfecto sensibus usu at duo ut iriure.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="text-center">
-      <div class="container">
-
-        <div class="row">
-          <div class="col-xs-6 col-sm-3 col-md-3">
-            <div class="wow fadeInLeft" data-wow-delay="0.2s">
-              <div class="service-box">
-                <div class="service-icon">
-                  <span class="pe-7s-monitor pe-5x"></span>
-                </div>
-                <div class="service-desc">
-                  <h5>Web Design</h5>
-                  <p>
-                    Ad denique euripidis signiferumque vim, iusto admodum quo cu. No tritani neglegentur mediocritatem duo.
-                  </p>
-                  <a href="#" class="btn btn-skin">Learn more</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xs-6 col-sm-3 col-md-3">
-            <div class="wow fadeInUp" data-wow-delay="0.2s">
-              <div class="service-box">
-                <div class="service-icon">
-                  <span class="pe-7s-camera pe-5x"></span>
-                </div>
-                <div class="service-desc">
-                  <h5>Photography</h5>
-                  <p>
-                    Ad denique euripidis signiferumque vim, iusto admodum quo cu. No tritani neglegentur mediocritatem duo.
-                  </p>
-                  <a href="#" class="btn btn-skin">Learn more</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xs-6 col-sm-3 col-md-3">
-            <div class="wow fadeInUp" data-wow-delay="0.2s">
-              <div class="service-box">
-                <div class="service-icon">
-                  <span class="pe-7s-note pe-5x"></span>
-                </div>
-                <div class="service-desc">
-                  <h5>Graphic design</h5>
-                  <p>
-                    Ad denique euripidis signiferumque vim, iusto admodum quo cu. No tritani neglegentur mediocritatem duo.
-                  </p>
-                  <a href="#" class="btn btn-skin">Learn more</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xs-6 col-sm-3 col-md-3">
-            <div class="wow fadeInRight" data-wow-delay="0.2s">
-              <div class="service-box">
-                <div class="service-icon">
-                  <span class="pe-7s-phone pe-5x"></span>
-                </div>
-                <div class="service-desc">
-                  <h5>Mobile apps</h5>
-                  <p>
-                    Ad denique euripidis signiferumque vim, iusto admodum quo cu. No tritani neglegentur mediocritatem duo.
-                  </p>
-                  <a href="#" class="btn btn-skin">Learn more</a>
-                </div>
-              </div>
+              <div>
+                <ul>
+                  <li >Agam perfecto sensibus usu at duo ut iriure.</li>
+                  <li >Lorem ipsum dolor sit amet, agam perfecto sensibus usu at duo ut iriure.</li>
+                  <li >Lorem ipsum dolor sit amet.</li>
+                </ul>
             </div>
           </div>
         </div>
       </div>
     </div>
   </section>
-  <!-- /Section: services -->
+
+  <!-- Section: parallax 1 -->
+  <section id="parallax1" class="home-section parallax text-light" data-stellar-background-ratio="0.3">
+    <div class="container" style="padding: 0 0 0 0">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="text-center">
+            <h2 class="big-heading highlight-dark wow bounceInDown" data-wow-delay="0.2s">$150/hr. All included.</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Section: space before footer  -->
+  <section id="amenities" class="home-section color-dark bg-white">
+    <div class="container marginbot-50">
+      <div class="row">
+      </div>
+    </div>  
+  </section> 
+
+
 
             <!-- Core JavaScript Files -->
   <!--<script src="static/Valera/js/jquery.min.js"></script>-->
-  <script src="static/Valera/js/bootstrap.min.js"></script>
+ <!-- Core JavaScript Files -->
+  <script src="{% static 'Valera/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'Valera/js/jquery.sticky.js' %}"></script>
+  <script src="{% static 'Valera/js/slippry.min.js' %}"></script>
+  <script src="{% static 'Valera/js/jquery.flexslider-min.js' %}"></script>
+  <script src="{% static 'Valera/js/morphext.min.js' %}"></script>
+  <script src="{% static 'Valera/js/gmap.js' %}"></script>
+  <script src="{% static 'Valera/js/jquery.mb.YTPlayer.js' %}"></script>
+  <script src="{% static 'Valera/js/jquery.easing.min.js' %}"></script>
+  <script src="{% static 'Valera/js/jquery.scrollTo.js' %}"></script>
+  <script src="{% static 'Valera/js/jquery.appear.js' %}"></script>
+  <script src="{% static 'Valera/js/stellar.js' %}"></script>
+  <script src="{% static 'Valera/js/wow.min.js' %}"></script>
+  <script src="{% static 'Valera/js/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'Valera/js/nivo-lightbox.min.js' %}"></script>
+  <script src="{% static 'Valera/js/jquery.nicescroll.min.js' %}"></script>
+  <script src="{% static 'Valera/js/custom.js' %}"></script>
+  <script src="{% static 'Valera/contactform/contactform.js' %}"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8HeI8o-c1NppZA-92oYlXakhDPYR7XMY"></script>
-  <script src="static/Valera/js/jquery.sticky.js"></script>
-  <script src="static/Valera/js/slippry.min.js"></script>
-  <script src="static/Valera/js/jquery.flexslider-min.js"></script>
-  <script src="static/Valera/js/morphext.min.js"></script>
-  <script src="static/Valera/js/gmap.js"></script> 
-  <script src="static/Valera/js/jquery.mb.YTPlayer.js"></script>
-  <script src="static/Valera/js/jquery.easing.min.js"></script>
-  <script src="static/Valera/js/jquery.scrollTo.js"></script> 
-  <script src="static/Valera/js/jquery.appear.js"></script>
-  <script src="static/Valera/js/stellar.js"></script>
-  <script src="static/Valera/js/wow.min.js"></script>
-  <script src="static/Valera/js/owl.carousel.min.js"></script>
-  <script src="static/Valera/js/nivo-lightbox.min.js"></script>
-  <script src="static/Valera/js/jquery.nicescroll.min.js"></script>
-  <script src="static/Valera/js/custom.js"></script>
-  <script src="static/Valera/contactform/contactform.js"></script>
 
 
-{% endblock content %}
+{% endblock 2ndcontent %}

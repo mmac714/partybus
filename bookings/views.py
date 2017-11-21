@@ -3,6 +3,11 @@ redirect, HttpResponseRedirect, reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
+from django.template.loader import get_template
+from django.template import Context
+
+import datetime
 
 import stripe
 
@@ -43,15 +48,35 @@ def reservation(request):
 def payment(request, reservation_id):
 	""" User's reservation data, agreement, payment. """
 	reservation = Reservation.objects.get(id=reservation_id)
-	context = {'reservation': reservation,}
+	context = {
+		'reservation': reservation,
+		}
+	sent = False
 
 	if request.method == "POST":
 		# Payment form submitted. Process payment.
 
 		token = request.POST.get("stripeToken")
 		Payment().charge_card(token, reservation)
+		payment = Payment.objects.get(reservation=reservation_id)
 
 		# Send email here...
+		# get the email and fee from the payment model
+		email = [str(payment.email),]
+		fee = str(int(payment.charge_amount)/100)
+		fee = "$" + fee + "0"
+		charge_description = payment.charge_desription
+		# set additional variables
+		today = datetime.date.today()
+		subject = 'Thanks for booking with us!'
+		body = get_template('bookings/confirmation_email.html').render({'email': email,'fee': fee,
+			'today':today, 'charge_description':charge_description})
+		sender = 'operations@partybus.com'
+		recipient = email
+		# send the payment amount to the email template 
+
+		send_mail(subject, "", sender, recipient, html_message=body)
+		sent = True
 
 		return HttpResponseRedirect(reverse('bookings:confirmation',
 			args=[reservation_id]))
@@ -130,14 +155,12 @@ def booking_list(request):
 		'payment': payment,
 		}
 	return render(request, 'bookings/booking_list.html', context)
-		
 
+def sitemap(request):
 
-
-
-
-
-
+	return HttpResponse(
+		open('bookings/static/PartyBus/sitemap.xml').read(),
+		content_type='text/xml')
 
 
 

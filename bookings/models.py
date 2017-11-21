@@ -18,7 +18,7 @@ class Reservation(models.Model):
 	This is a one to many rationship. 
 	Detail and payment will relate to this model."""
 	date = models.DateField()
-	duration = models.IntegerField()
+	duration = models.IntegerField("Number of hours")
 	quote_amount = models.IntegerField(default=0)
 	happening = models.BooleanField(default=False)
 	objects = models.Manager()
@@ -31,7 +31,7 @@ class Reservation(models.Model):
 	def derive_quote_amount(self, reservation):
 		""" Calculate and store the payment amount. """
 		duration = reservation.duration
-		rate = 10000
+		rate = 15000
 		reservation.quote_amount = duration * rate
 
 		reservation.save()

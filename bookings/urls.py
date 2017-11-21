@@ -13,5 +13,6 @@ urlpatterns = [
 	url(r'^booking/(?P<reservation_id>\d+)$',
 		views.booking, name='booking'),
 	url(r'^booking_list/$', views.booking_list, name='booking_list'),
+	url(r'^sitemap\.xml$', views.sitemap, name="sitemap")
 
 ]

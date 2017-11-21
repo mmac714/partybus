@@ -1,6 +1,8 @@
 {% extends "bookings/base.html" %}
+{% load static %}
 
-{% block content %}
+{% block 2ndcontent %}
+
 
 
 <!--
@@ -30,76 +32,59 @@
         <div class="col-lg-8 col-lg-offset-2">
           <div class="wow flipInY" data-wow-offset="0" data-wow-delay="0.4s">
             <div class="section-heading text-center">
-              <h2 class="h-bold">Contact us</h2>
+              <h2 class="h-bold">You're one step away!</h2>
               <div class="divider-header"></div>
-              <p>Lorem ipsum dolor sit amet, agam perfecto sensibus usu at duo ut iriure.</p>
+              <p>Confirm your booking details below, and then tap "pay" to reserve your booking.</p>
             </div>
           </div>
         </div>
       </div>
-
     </div>
-
     <div class="container">
-
       <div class="row marginbot-80">
-        <div class="col-md-8 col-md-offset-2">
-        
-
-            <p>
-  Reservation ID: {{ reservation.id }}
-</p>
-
-<p>
-  Reservation Date: {{ reservation.date }}
-</p>
-
-
-<p>
-  <form action="{% url 'bookings:payment' reservation.id %}"
-  method="post">
-     <script
-    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-    data-key="pk_test_DpPhRMRAYLkZqgZxgFLTM3vY"
-    data-amount="400"
-    data-name="Sixty Mill Street"
-    data-description="14 Person Pary Bus"
-    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-    data-locale="auto">
-  </script>
-  </form>
-</p>
-
-
-          </form>
+        <div class="col-md-8 col-md-offset-2 text-left">
+          <p>
+            Reservation ID: {{ reservation.id }}
+          </p>
+          <p>
+            Reservation Date: {{ reservation.date }}
+          </p>
+          <p>
+            Vehicle: 14 Person Party Bus
+          </p>
         </div>
+        <div class="user-agreement text-left"> 
+          <h5 style="color: black;">
+            Terms and Conditions
+          </h5>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ligula ullamcorper malesuada proin libero nunc consequat. Tortor condimentum lacinia quis vel eros donec. Sed nisi lacus sed viverra. Nisi lacus sed viverra tellus in hac habitasse platea. Senectus et netus et malesuada fames ac turpis egestas. Nunc congue nisi vitae suscipit tellus mauris a. Aenean euismod elementum nisi quis eleifend. Egestas sed tempus urna et pharetra. Mauris a diam maecenas sed enim ut sem viverra.
+
+          Diam vel quam elementum pulvinar etiam non quam lacus. Nunc vel risus commodo viverra maecenas accumsan lacus. Montes nascetur ridiculus mus mauris vitae. Egestas congue quisque egestas diam in arcu cursus euismod. Enim facilisis gravida neque convallis a. Pretium aenean pharetra magna ac placerat vestibulum lectus. Mauris a diam maecenas sed enim ut sem viverra aliquet. Et egestas quis ipsum suspendisse ultrices gravida. Amet porttitor eget dolor morbi non arcu risus. Diam ut venenatis tellus in metus vulputate. Lectus urna duis convallis convallis tellus id. Lorem ipsum dolor sit amet.
+
+          Sed nisi lacus sed viverra. Netus et malesuada fames ac. Urna duis convallis convallis tellus id interdum velit laoreet. Euismod quis viverra nibh cras. Quis auctor elit sed vulputate mi sit. Amet commodo nulla facilisi nullam vehicula ipsum. Dui faucibus in ornare quam viverra orci sagittis. Elit duis tristique sollicitudin nibh. Consectetur adipiscing elit pellentesque habitant. Tempor commodo ullamcorper a lacus vestibulum sed arcu. Fusce id velit ut tortor pretium viverra suspendisse potenti. Odio ut enim blandit volutpat maecenas volutpat blandit aliquam. Ipsum dolor sit amet consectetur adipiscing. Sem integer vitae justo eget magna fermentum iaculis eu non. Faucibus interdum posuere lorem ipsum dolor sit. Pretium aenean pharetra magna ac placerat. Id cursus metus aliquam eleifend. Facilisi cras fermentum odio eu. Suscipit tellus mauris a diam maecenas sed enim. Tempus urna et pharetra pharetra massa massa ultricies mi.
+        </div>
+        <div>
+          <p>
+            By electing to pay, you agree with the terms and conditions above. 
+          </p>
+        </div>
+        <p>
+          <form action="{% url 'bookings:payment' reservation.id %}" method="post">
+            <script
+            src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+            data-key="pk_test_DpPhRMRAYLkZqgZxgFLTM3vY"
+            data-amount="{{ reservation.quote_amount }}"
+            data-name="Sixty Mill Street"
+            data-description="14 Person Pary Bus"
+            data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+            data-locale="auto">    
+            </script>
+          </form>
+        </p>
       </div>
-
-
     </div>
   </section>
-  <!-- /Section: contact -->
 
-  
-
-
-  <!-- Section: home video 
-
-<p>
-  <form action="{% url 'bookings:payment' reservation.id %}"
-  method="post">
-     <script
-    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-    data-key="pk_test_DpPhRMRAYLkZqgZxgFLTM3vY"
-    data-amount="400"
-    data-name="Sixty Mill Street"
-    data-description="14 Person Pary Bus"
-    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-    data-locale="auto">
-  </script>
-  </form>
-</p>
--->
      <!-- Core JavaScript Files -->
   <script src="static/Valera/js/jquery.min.js"></script>
   <script src="static/Valera/js/bootstrap.min.js"></script>
@@ -122,4 +107,4 @@
   <script src="static/Valera/contactform/contactform.js"></script>
   <script src="static/Valera/js/gifplayer.js"></script>
 
-{% endblock content %}
+{% endblock 2ndcontent %}
