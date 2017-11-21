@@ -48,9 +48,6 @@ if os.getcwd() == '/app':
     # in development og.getcwd is
     # /Users/macbook/djangoProjects/sixtymill/sixty_mill/sixty_mill
 
-    import dj_database_url
-    DATABASES['default'] =  dj_database_url.config()
-
     DEBUG = False
 
     #DATABASES = {
@@ -127,7 +124,9 @@ DB_PASSWORD = os.environ.get("DB_PASSWORD")
 if os.getcwd() == '/app':
     # in development og.getcwd is
     # /Users/macbook/djangoProjects/sixtymill/sixty_mill/sixty_mill
-    DATABASES['default'] =  dj_database_url.config()
+    DATABASES = {
+        'default': dj_database_url.config(default='DATABASE_URL')
+     }
 
 else:
 
