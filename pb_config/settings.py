@@ -49,12 +49,13 @@ if os.getcwd() == '/app':
     # /Users/macbook/djangoProjects/sixtymill/sixty_mill/sixty_mill
 
     import dj_database_url
+    DATABASES['default'] =  dj_database_url.config()
 
     DEBUG = False
 
-    DATABASES = {
-        'default': dj_database_url.config(default='DATABASE_URL')
-     }
+    #DATABASES = {
+     #   'default': dj_database_url.config(default='DATABASE_URL')
+     #}
 
      # Honor the 'X-Forwarded-Proto' header for request.is_secure().
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -63,7 +64,6 @@ if os.getcwd() == '/app':
     ALLOWED_HOSTS = ['*']
 
     SITE_ID = 1
-
 
 # Application definition
 
@@ -119,21 +119,28 @@ WSGI_APPLICATION = 'pb_config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 import dj_database_url
-
 DB_NAME = os.environ.get("DB_NAME")
 DB_USER = os.environ.get("DB_USER")
 DB_PASSWORD = os.environ.get("DB_PASSWORD")
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': DB_NAME, #'sixtymill_db',
-        'USER': DB_USER,
-        'PASSWORD': DB_PASSWORD,
-        'HOST': 'localhost',
-        'PORT': 5432
+# Heroku settings
+if os.getcwd() == '/app':
+    # in development og.getcwd is
+    # /Users/macbook/djangoProjects/sixtymill/sixty_mill/sixty_mill
+    DATABASES['default'] =  dj_database_url.config()
+
+else:
+
+    DATABASES = {
+        'default': {
+          'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': DB_NAME, #'sixtymill_db',
+            'USER': DB_USER,
+            'PASSWORD': DB_PASSWORD,
+            'HOST': 'localhost',
+            'PORT': 5432
+        }
     }
-}
 
 
 # Password validation
