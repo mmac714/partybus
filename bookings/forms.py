@@ -13,7 +13,7 @@ saturday = today + datetime.timedelta( (5-today.weekday()) % 7)
 class ReservationForm(forms.ModelForm):
 	date = forms.DateField(widget=forms.SelectDateWidget, 
 		initial=saturday)
-	duration = forms.IntegerField(widget=forms.NumberInput, min_value=3, label='Amount of hours')
+	duration = forms.IntegerField(widget=forms.NumberInput, min_value=3, label='# of hours')
 	class Meta:
 		model = Reservation
 		fields = ['date','duration'] 
