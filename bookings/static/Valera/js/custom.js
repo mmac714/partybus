@@ -165,5 +165,5 @@
 })(jQuery);
 $(window).load(function() {
 	$(".loader").delay(300).fadeOut();
-	$("#page-loader").delay(500).fadeOut("slow");
+	$("#page-loader").delay(30).fadeOut("slow");
 });
