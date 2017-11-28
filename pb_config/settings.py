@@ -117,10 +117,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'pb_config.wsgi.application'
 
 PROJECT_DIR = os.path.dirname(__file__)
-TEMPLATE_DIRS = (
-    os.path.join(PROJECT_DIR, "templates"),
-    # here you can add another templates directory if you wish.
-)
+
 
 
 # Database
@@ -184,29 +181,25 @@ USE_L10N = True
 
 USE_TZ = True
 
-if os.getcwd() == '/app':
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-    AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
-    AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
-    AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
-    AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-    AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age=86400',
-    }
-    AWS_LOCATION = 'static'
+AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_S3_OBJECT_PARAMETERS = {
+'CacheControl': 'max-age=86400',
+}
+AWS_LOCATION = 'static'
 
 
-    STATICFILES_DIRS = [
-        os.path.join(BASE_DIR, 'bookings/static'),
-    ]
-    STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
-    STATICFILES_STORAGE = os.environ.get("STATICFILES_STORAGE")
-
-else:
-
-    STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'bookings/static'),
+]
+STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+STATICFILES_STORAGE = os.environ.get("STATICFILES_STORAGE")
 
 # Stripe Settings
 # STRIPE_LIVE_PIBLIC_KEY = grab from stripe when testing prod
