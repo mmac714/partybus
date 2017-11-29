@@ -1414,7 +1414,6 @@ Parallax
 }
 
 #parallax3:after  {	
-	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEklEQVQImWNgYGD4z0AswK4SAFXuAf8EPy+xAAAAAElFTkSuQmCC);
 	content: "";
 	position: absolute;
 	bottom: 0;
@@ -1423,6 +1422,7 @@ Parallax
 	top: 0;
 	opacity: 0.9;
 	z-index: -1;
+	width: 1200 !important;
 }
 
 /* === testimonial slide === */
