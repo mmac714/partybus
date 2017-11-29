@@ -35,8 +35,6 @@
               <h2 class="h-bold">You're one step away!</h2>
               <div class="divider-header"></div>
               <p>Confirm your booking details below, and then tap "pay" to reserve your booking.</p>
-              <p style="color:red">(Test card payment by entering 4242 4242 4242 4242 as the cc number, and a valild expiration date/cvc number)
-              </p>
             </div>
           </div>
         </div>
@@ -52,7 +50,7 @@
             Reservation Date: {{ reservation.date }}
           </p>
           <p>
-            Vehicle: 14 Person Party Bus
+            Vehicle: 16 Person Party Bus
           </p>
         </div>
         <div class="user-agreement text-left"> 
@@ -76,8 +74,8 @@
             src="https://checkout.stripe.com/checkout.js" class="stripe-button"
             data-key="pk_test_DpPhRMRAYLkZqgZxgFLTM3vY"
             data-amount="{{ reservation.quote_amount }}"
-            data-name="Sixty Mill Street"
-            data-description="14 Person Pary Bus"
+            data-name="Party Bus"
+            data-description="16 Person Pary Bus"
             data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
             data-locale="auto">    
             </script>

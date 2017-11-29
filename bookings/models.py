@@ -3,6 +3,11 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import HttpResponseRedirect, reverse
+from django.core.mail import send_mail
+from django.template.loader import get_template
+from django.template import Context
+
+import datetime, time
 
 import stripe
 import uuid
@@ -73,60 +78,117 @@ class Payment(models.Model):
 	charge_amount = models.IntegerField(default=0)
 	charge_status = models.CharField(max_length=100, blank=True)
 	charge_desription = models.CharField(max_length=200, blank=True)
+	stripe_customer_id = models.CharField(max_length=30, blank=True)
 
 	def __str__(self):
 		""" Return the id of the model """
 		return str(self.reservation_id)
 
-	def store_stripe_objects_in_db(self, reservation_instance, 
-		charge_instance):
-		""" store stripe objects to the payment instance """
+	def store_stripe_customer_in_db(self, reservation_instance, 
+		customer_instance):
+		""" takes the reservation number to store the stripe
+		customer id and email. """
 		res = reservation_instance
-		charge = charge_instance
+		customer = customer_instance
 
-		res.stripe_id = charge.id
-		res.email = charge.source.name
-		res.charge_amount = charge.amount
-		res.charge_status = charge.outcome.type
-		res.charge_desription = charge.outcome.seller_message
+		# store variables
+		res.stripe_customer_id = customer.id
+		res.email = customer.email
 
 		res.save()
 
-	def charge_card(self, token, reservation):
-		""" uses the form token to charge the card, create a 
-		charge or CardError object and stores the object data. """
-		new_payment = Payment(str(reservation))
-		fee = reservation.quote_amount
 
-		if new_payment.charge_amount:
-		# if paid=true, do not process payment and
-		# send directly to confirmation page. 
-			return HttpResponseRedirect(reverse('bookings:confirmation',
-				args=[reservation]))
+	def create_stripe_customer(self, token, email, reservation):
+		""" Creates a stripe customer.
+		Saves the card on file.
+		Save the customer's id and email to the database."""
+		reservation = Payment(str(reservation))
+
+		try:
+			customer = stripe.Customer.create(
+				source=token,
+				email=email,
+				)
+
+		except stripe.error.CustomerError as ce:
+			return ce
+
+		else:
+			Payment().store_stripe_customer_in_db(reservation, customer)
+
+	def store_stripe_payment_in_db(self, reservation_instance, 
+		charge_instance, customer_instance):
+		""" store stripe objects to the payment instance """
+		res = reservation_instance
+		charge = charge_instance
+		customer = customer_instance
+
+		res.stripe_id = charge.id
+		res.charge_amount = charge.amount
+		res.charge_status = charge.outcome.type
+		res.charge_desription = charge.description
+
+		res.stripe_customer_id = customer.id
+		res.email = customer.email
+
+		res.save()
+
+	def create_and_charge_customer(self, token, email, reservation):
+		""" Creates a new customer and charges their card for
+		the reservation. """
+		fee = reservation.quote_amount
+		reservation = Payment(str(reservation))
+
+		try:
+			customer = stripe.Customer.create(
+				source=token,
+				email=email,
+				)
+
+		except stripe.error.CustomerError as ce:
+			return ce
+
+		stripe_customer_id = customer.id
 
 		try:
 			charge = stripe.Charge.create(
-						amount = fee,
-						currency = "usd",
-						source = token,
-						description = str(reservation)
-						)
+				amount=fee,
+				currency="usd",
+				customer=stripe_customer_id,
+				description="16-person party bus",
+				)
 
 		except stripe.error.CardError as ce:
-			# an error object is created as the 
-			# the result of a card error.
-			# This error will happen on blocked (fraud) cards
+			# Errors will only happen on fraud cards
 			err = ce.json_body.get('error', {})
 			new_payment.charge_status = err.get('type')
 			new_payment.charge_desription = err.get('message')
 			new_payment.save()
 			return False
-				# will forward them to confirm page with charge 
-				# status and description
 
 		else:
-			Payment().store_stripe_objects_in_db(new_payment, charge)
+			Payment().store_stripe_payment_in_db(reservation, charge, customer)
 
 
+	def send_booking_confirmation_email(self, email, reservation):
+		""" send email to confirm reservation and payment. """
+		payment = Payment.objects.get(reservation=reservation)
+		email = [str(email),]
+		fee = str(int(payment.charge_amount)/100)
+		fee = "$" + fee + "0"
+		charge_description = payment.charge_desription
+		
+		# set additional variables
+		today = datetime.date.today()
+		subject = 'Thanks for booking with us!'
+		body = get_template('bookings/confirmation_email.html').render(
+			{
+			'email': email,
+			'fee': fee,
+			'today':today, 
+			'charge_description':charge_description
+			})
+		sender = 'operations@partybus.com'
+		recipient = email
 
-
+		send_mail(subject, "", sender, recipient, html_message=body, fail_silently=False)

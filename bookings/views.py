@@ -7,7 +7,7 @@ from django.core.mail import send_mail
 from django.template.loader import get_template
 from django.template import Context
 
-import datetime
+import datetime, time
 
 import stripe
 
@@ -48,34 +48,22 @@ def reservation(request):
 def payment(request, reservation_id):
 	""" User's reservation data, agreement, payment. """
 	reservation = Reservation.objects.get(id=reservation_id)
+	payment = Payment.objects.get(reservation=reservation_id)
 	context = {
 		'reservation': reservation,
+		'payment': payment,
 		}
 	sent = False
 
 	if request.method == "POST":
 		# Payment form submitted. Process payment.
 
+		# Retrieve token and email from form.
 		token = request.POST.get("stripeToken")
-		Payment().charge_card(token, reservation)
-		payment = Payment.objects.get(reservation=reservation_id)
-
-		# Send email here...
-		# get the email and fee from the payment model
-		email = [str(payment.email),]
-		fee = str(int(payment.charge_amount)/100)
-		fee = "$" + fee + "0"
-		charge_description = payment.charge_desription
-		# set additional variables
-		today = datetime.date.today()
-		subject = 'Thanks for booking with us!'
-		body = get_template('bookings/confirmation_email.html').render({'email': email,'fee': fee,
-			'today':today, 'charge_description':charge_description})
-		sender = 'operations@partybus.com'
-		recipient = email
-		# send the payment amount to the email template 
-
-		send_mail(subject, "", sender, recipient, html_message=body)
+		email = request.POST.get("stripeEmail")
+		
+		Payment().create_and_charge_customer(token, email, reservation)
+		Payment().send_booking_confirmation_email(email, reservation)
 		sent = True
 
 		return HttpResponseRedirect(reverse('bookings:confirmation',
