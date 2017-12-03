@@ -44,7 +44,7 @@ def reservation(request):
 	return render(request, 'bookings/reservation.html', context)
 
 
-@csrf_exempt
+@csrf_exempt #cannot pass CSRF cookie to stripe and back
 def payment(request, reservation_id):
 	""" User's reservation data, agreement, payment. """
 	reservation = Reservation.objects.get(id=reservation_id)
